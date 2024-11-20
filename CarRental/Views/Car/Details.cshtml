@@ -1,0 +1,33 @@
+﻿@model CarRental.Models.Car
+
+
+<h1>@Model.Make @Model.Model</h1>
+
+<div class="my-5">
+    <img src="~/Images/Cars/@Model.ImageUrl" alt="@Model.Make @Model.Model" style="width: 700px; height: auto">
+
+    <p><strong>Price per Day:</strong> @Model.PricePerDay €</p>
+    <p><strong>Availability:</strong> @(Model.IsAvailable ? "Available" : "Currently Unavailable")</p>
+
+    <h3>Specifications</h3>
+
+    <ul>
+        <li><strong>Make:</strong> @Model.Make</li>
+        <li><strong>Model:</strong> @Model.Model</li>
+        <li><strong>Year:</strong> @Model.Year</li>
+        <li><strong>Fuel Type:</strong> @Model.FuelType</li>
+        <li><strong>Seats:</strong> @Model.Seats</li>
+    </ul>
+
+    @if (Model.IsAvailable)
+    {
+        <form asp-action="Book" asp-controller="Booking" method="post">
+            <input type="hidden" name="CarId" value="@Model.CarId" />
+            <button type="submit" class="btn btn-secondary link-custom border-link">Book This Car</button>
+        </form>
+    }
+    else
+    {
+        <p>This car is currently unavailable for booking</p>    
+    }
+</div>
