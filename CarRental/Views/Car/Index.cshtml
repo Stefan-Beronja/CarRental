@@ -4,9 +4,9 @@
         ViewData["Title"] = "Car Listing";
     }
 
-<h2 class="my-3 display-6">Find A Car</h2>
+<h2 class="my-2 display-6">Find A Car</h2>
 
- <div class="my-5">
+ <div class="my-3 mb-5">
     <form methd="get" asp-action="Index" class="row g-3">
         <div class="col-auto">
             <label for="make" class="visually-hidden">Make</label>
@@ -42,7 +42,7 @@
     {
             <div class="col-4">
                 <div class="card my-3">
-                        <img src="~/Images/Cars/" alt="" class="card-img-top img-card-custom">
+                <img src="~/Images/Cars/" alt="" class="card-img-top img-card-custom">
                     <div class="card-body">
                         <h5 class="card-title">@car.Make @car.Model</h5>
                         <p class="card-text text-custom">
