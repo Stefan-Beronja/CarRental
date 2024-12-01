@@ -1,0 +1,64 @@
+﻿@model CarRental.Models.Car
+
+        <div class="card my-3">
+            <div class="images-container">
+        <img src="~/Images/Cars/@(string.IsNullOrEmpty(Model.ImageUrl) ? "Coming_soon.png" : Model.ImageUrl)" alt="@Model.Make @Model.Model" class="card-img-top img-card-custom">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Make @Model.Model</h5>
+                <p class="card-text text-custom">
+                    @Model.PricePerDay € /day
+                </p>
+                <a href="@Url.Action("Details", "Car", new { id = Model.CarId})" class="btn btn-light link-custom border-link">View Details</a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @* @model IEnumerable<CarRental.Models.Car>
+
+<div class="row">
+    @foreach (Car car in Model)
+    {
+        <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-12">
+            <div class="card my-3">
+                <img src="~/Images/Cars/@(string.IsNullOrEmpty(car.ImageUrl) ? "Car_icon.jpg" : car.ImageUrl)" alt="@car.Make @car.Model" class="card-img-top img-card-custom">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Make @car.Model</h5>
+                    <p class="card-text text-custom">
+                        Price per Day: @car.PricePerDay €
+                    </p>
+                    <p class="card-text text-custom">
+                        @(car.IsAvailable ? "Available" : "Not Available")
+                    </p>
+                    <a href="@Url.Action("Details", "Car", new { id = car.CarId})" class="btn btn-light link-custom border-link">View Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div> *@

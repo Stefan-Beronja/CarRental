@@ -1,33 +1,44 @@
 ﻿@model CarRental.Models.Car
 
+@{
+    ViewData["Title"] = @Model.Make + " " + @Model.Model;
+}
 
-<h1>@Model.Make @Model.Model</h1>
+<div class="row">
+    <div class="col-4">
+        <h1>@Model.Make @Model.Model</h1>
 
-<div class="my-5">
-    <img src="~/Images/Cars/@Model.ImageUrl" alt="@Model.Make @Model.Model" style="width: 700px; height: auto">
+        <div class="my-5">
+            <p><strong>Price per Day:</strong> @Model.PricePerDay €</p>
+            <p><strong>Availability:</strong> @(Model.IsAvailable ? "Available" : "Currently Unavailable")</p>
+            
 
-    <p><strong>Price per Day:</strong> @Model.PricePerDay €</p>
-    <p><strong>Availability:</strong> @(Model.IsAvailable ? "Available" : "Currently Unavailable")</p>
+            <h3 class="mt-3">Specifications</h3>
 
-    <h3>Specifications</h3>
+            <ul class="list-group col-6 my-4">
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Make:</strong> @Model.Make</li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Model:</strong> @Model.Model</li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Year:</strong> @Model.Year</li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Fuel Type:</strong> @Model.FuelType</li>
+                <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Seats:</strong> @Model.Seats</li>
+            </ul>
 
-    <ul>
-        <li><strong>Make:</strong> @Model.Make</li>
-        <li><strong>Model:</strong> @Model.Model</li>
-        <li><strong>Year:</strong> @Model.Year</li>
-        <li><strong>Fuel Type:</strong> @Model.FuelType</li>
-        <li><strong>Seats:</strong> @Model.Seats</li>
-    </ul>
+            @if (Model.IsAvailable)
+            {
+                <form asp-action="Create" asp-controller="Booking" method="get">
+                    <input type="hidden" name="CarId" value="@Model.CarId" />
+                    <input type="hidden" nema="UserId" value="1" />
+                    <button type="submit" class="btn btn-secondary link-custom border-link">Book This Car</button>
+                </form>
+            }
+            else
+            {
+                <p>This car is currently unavailable for booking</p>    
+            }
+        </div>
+    </div>
 
-    @if (Model.IsAvailable)
-    {
-        <form asp-action="Book" asp-controller="Booking" method="post">
-            <input type="hidden" name="CarId" value="@Model.CarId" />
-            <button type="submit" class="btn btn-secondary link-custom border-link">Book This Car</button>
-        </form>
-    }
-    else
-    {
-        <p>This car is currently unavailable for booking</p>    
-    }
+    <div class="col-7">
+        <img src="~/Images/Cars/@(string.IsNullOrEmpty(Model.ImageUrl) ? "Coming_soon.png" : Model.ImageUrl)" alt="@Model.Make @Model.Model" class="card-img-top img-card-custom">
+    </div>
 </div>

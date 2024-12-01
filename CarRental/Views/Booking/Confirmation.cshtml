@@ -1,0 +1,13 @@
+﻿@Model CarRental.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking conformation";
+}
+
+<ul>
+    <li><strong>Car:</strong> @Model.Car.Make @Model.Car.Model</li>
+    <li><strong>Start Date:</strong> @Model.StartDate.ToShortDateString</li>
+    <li><strong>End date:</strong> @Model.EndDate.ToShortDateString</li>
+    <li><strong>Total Price:</strong> @Model.TotalPrice</li>
+</ul>
+

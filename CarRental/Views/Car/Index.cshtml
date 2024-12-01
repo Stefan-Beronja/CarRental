@@ -4,7 +4,8 @@
         ViewData["Title"] = "Car Listing";
     }
 
-<h2 class="my-2 display-6">Find A Car</h2>
+<div class="container-fluid div-index">
+<h2 class="my-2">Find A Car</h2>
 
  <div class="my-3 mb-5">
     <form methd="get" asp-action="Index" class="row g-3">
@@ -20,12 +21,12 @@
 
         <div class="col-auto">
             <label for="min-price" class="visually-hidden">Minimal Price</label>
-            <input type="number" name="min-price" id="min-price" class="form-control" placeholder="Minimal Price" value="@Context.Request.Query["minPrice"]" />
+            <input type="number" name="min-price" id="min-price" step="0.01" class="form-control" placeholder="Minimal Price" value="@Context.Request.Query["minPrice"]" />
         </div>
 
         <div class="col-auto">
             <label for="max-price" class="visually-hidden">Maximal Price</label>
-            <input type="number" name="max-price" id="max-price" class="form-control" placeholder="Max" value="@Context.Request.Query["minPrice"]" />
+            <input type="number" name="max-price" id="max-price" step="0.01" class="form-control" placeholder="Maximal Price" value="@Context.Request.Query["minPrice"]" />
         </div>
 
         <div class="col-auto">
@@ -33,12 +34,37 @@
             <button type="reset" class="btn btn-Light border-link">Reset</button>
         </div>
     </form>
- </div>   
+ </div>
+</div>
 
-<h2 class="my-2 display-6">Available Cars</h2>
+
+<h1 class="my-2">Available Cars</h1>
+
 
 <div class="row">
     @foreach (var car in Model)
+    {
+        <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-12">
+            @await Html.PartialAsync("_CarCard", car)
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* <div class="row">
+    @foreach (Car car in Model)
     {
             <div class="col-4">
                 <div class="card my-3">
@@ -54,18 +80,6 @@
                     <a href="@Url.Action("Details", "Car", new { id = car.CarId})" class="btn btn-light link-custom border-link">View Details</a>
                     </div>
                 </div>
-            </div>
-    }
-</div>
-
-@* <div>
-    @foreach(var car in Model)
-    {
-            <div class= "car-card">
-                <h2 > @car.Make @car.Model </h2>
-                <p> Price per Day: @car.PricePerDay €</p>
-                <p>@(car.IsAvailable ? "Available" : "Not Available") </p>
-                <a href = "@Url.Action("Details", "Car", new { id = car.CarId})">View Details</a>
             </div>
     }
 </div> *@
