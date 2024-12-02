@@ -28,7 +28,7 @@ namespace CarRental.Utils
                 Make = "BMW",
                 Model = "M5",
                 PricePerDay = 56.3m,
-                IsAvailable = true,
+                IsAvailable = false,
                 Year = 2023,
                 FuelType = "Petrol",
                 Seats = 5,
@@ -42,7 +42,7 @@ namespace CarRental.Utils
                 Make = "Renault",
                 Model = "Senic",
                 PricePerDay = 96.3m,
-                IsAvailable = true,
+                IsAvailable = false,
                 Year = 2024,
                 FuelType = "Electric",
                 Seats = 5,
@@ -68,7 +68,7 @@ namespace CarRental.Utils
                 Make = "Toyota",
                 Model = "RAV 4",
                 PricePerDay = 83.6m,
-                IsAvailable = true,
+                IsAvailable = false,
                 Year = 2024,
                 FuelType = "Hybrid",
                 Seats = 5,
@@ -94,7 +94,7 @@ namespace CarRental.Utils
                 Make = "Peugeot",
                 Model = "3008",
                 PricePerDay = 98.6m,
-                IsAvailable = true,
+                IsAvailable = false,
                 Year = 2023,
                 FuelType = "Petrol",
                 Seats = 5,
@@ -111,14 +111,14 @@ namespace CarRental.Utils
             bookings.Add(new Booking()
             {
                 BookingId = 11,
-                CarId = 7,
+                CarId = 1,
                 UserId = 13,
                 StartDate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(2),
+                EndDate = DateTime.Now.AddDays(3),
                 TotalPrice = 400,
                 Car = new Car()
                 {
-                    CarId = 7,
+                    CarId = 1,
                     Make = "Audi",
                     Model = "A3",
                     PricePerDay = 45.5m,
@@ -177,5 +177,7 @@ namespace CarRental.Utils
 
             return bookings;
         }
+
+        
     }
 }

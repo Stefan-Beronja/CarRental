@@ -12,13 +12,20 @@ namespace CarRental.Controllers
         {
             IEnumerable<Car> cars = Storage.InitCars();
             Car car = cars.Single(x => x.CarId == carId);
+            
+            IEnumerable<Booking> bookings = Storage.InitBooking();
+            Booking booking = bookings.SingleOrDefault(x => x.CarId == carId);
 
-            if (car == null || !car.IsAvailable)
+            booking.TotalPrice = CalculateTotalPrice(booking.StartDate, booking.EndDate, car.PricePerDay);
+            booking.Car = car;
+
+            if (booking == null || !car.IsAvailable)
             {
                 return NotFound("The car is not avilable for booking.");
             }
+            
 
-            return View(new Booking {BookingId = 1, CarId = carId, Car = car, StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), TotalPrice = car.PricePerDay});
+            return View(booking);
         }
 
         [HttpPost]
@@ -33,8 +40,7 @@ namespace CarRental.Controllers
                 return NotFound("The car is not avilable for booking.");
             }
 
-            var rentalDays = (booking.EndDate - booking.StartDate).Days;
-            booking.TotalPrice = rentalDays * car.PricePerDay;
+            booking.TotalPrice = CalculateTotalPrice(booking.StartDate, booking.EndDate, car.PricePerDay);
             booking.Car = car;
 
             //ModelState:
@@ -46,17 +52,23 @@ namespace CarRental.Controllers
 
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Confirmation", new { bookingId = booking.BookingId });
+                return RedirectToAction("Confirmation", new { bookingId = booking.BookingId, carId = booking.CarId });
             }
 
             return View(booking);
 
         }
 
-        public IActionResult Confirmation(int bookingId)
+        public IActionResult Confirmation(int bookingId, int carId)
         {
             IEnumerable<Booking> bookings = Storage.InitBooking();
             Booking booking = bookings.SingleOrDefault(x => x.BookingId == bookingId);
+
+            IEnumerable<Car> cars = Storage.InitCars();
+            Car car = cars.Single(x => x.CarId == carId);
+
+            booking.TotalPrice = CalculateTotalPrice(booking.StartDate, booking.EndDate, car.PricePerDay);
+            booking.Car = car;
 
             if (booking == null)
             {
@@ -74,6 +86,14 @@ namespace CarRental.Controllers
             // Zasto ne moze kao u gore navedenim primerima
             
             return View(bookings);
+        }
+
+        public decimal CalculateTotalPrice(DateTime startDate, DateTime endDate, decimal pricePerDay)
+        {
+            var rentalDays = (endDate - startDate).Days;
+            var totalPrice = pricePerDay * rentalDays;
+
+            return totalPrice;
         }
     }
 }
