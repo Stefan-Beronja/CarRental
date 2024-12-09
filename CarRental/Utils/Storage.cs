@@ -28,7 +28,7 @@ namespace CarRental.Utils
                 Make = "BMW",
                 Model = "M5",
                 PricePerDay = 56.3m,
-                IsAvailable = false,
+                IsAvailable = true,
                 Year = 2023,
                 FuelType = "Petrol",
                 Seats = 5,
@@ -42,7 +42,7 @@ namespace CarRental.Utils
                 Make = "Renault",
                 Model = "Senic",
                 PricePerDay = 96.3m,
-                IsAvailable = false,
+                IsAvailable = true,
                 Year = 2024,
                 FuelType = "Electric",
                 Seats = 5,
@@ -68,7 +68,7 @@ namespace CarRental.Utils
                 Make = "Toyota",
                 Model = "RAV 4",
                 PricePerDay = 83.6m,
-                IsAvailable = false,
+                IsAvailable = true,
                 Year = 2024,
                 FuelType = "Hybrid",
                 Seats = 5,
@@ -101,6 +101,19 @@ namespace CarRental.Utils
                 ImageUrl = ""
             });
 
+            cars.Add(new Car()
+            {
+                CarId = 8,
+                Make = "Maybach",
+                Model = "S-680",
+                PricePerDay = 526.6m,
+                IsAvailable = true,
+                Year = 2024,
+                FuelType = "Hybrid",
+                Seats = 5,
+                ImageUrl = "Mercedes-Maybach-S-680.png"
+            });
+
             return cars;
         }
 
@@ -110,12 +123,12 @@ namespace CarRental.Utils
 
             bookings.Add(new Booking()
             {
-                BookingId = 11,
+                BookingId = 1,
                 CarId = 1,
-                UserId = 13,
+                UserId = 1,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(3),
-                TotalPrice = 400,
+                TotalPrice = 0,
                 Car = new Car()
                 {
                     CarId = 1,
@@ -133,12 +146,12 @@ namespace CarRental.Utils
 
             bookings.Add(new Booking()
             {
-                BookingId = 21,
+                BookingId = 2,
                 CarId = 4,
-                UserId = 23,
+                UserId = 2,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(3),
-                TotalPrice = 500,
+                TotalPrice = 0,
                 Car = new Car()
                 {
                     CarId = 4,
@@ -155,12 +168,12 @@ namespace CarRental.Utils
 
             bookings.Add(new Booking()
             {
-                BookingId = 31,
+                BookingId = 3,
                 CarId = 6,
-                UserId = 33,
+                UserId = 3,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(1),
-                TotalPrice = 600,
+                TotalPrice = 0,
                 Car = new Car()
                 {
                     CarId = 6,
@@ -172,6 +185,94 @@ namespace CarRental.Utils
                     FuelType = "Disel",
                     Seats = 5,
                     ImageUrl = "Mercedes_GLA.webp"
+                }
+            });
+
+            bookings.Add(new Booking()
+            {
+                BookingId = 4,
+                CarId = 8,
+                UserId = 4,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                TotalPrice = 0,
+                Car = new Car()
+                {
+                    CarId = 8,
+                    Make = "Maybach",
+                    Model = "S-680",
+                    PricePerDay = 526.6m,
+                    IsAvailable = true,
+                    Year = 2024,
+                    FuelType = "Hybrid",
+                    Seats = 5,
+                    ImageUrl = "Mercedes-Maybach-S-680.png"
+                }
+            });
+
+            bookings.Add(new Booking()
+            {
+                BookingId = 5,
+                CarId = 2,
+                UserId = 5,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                TotalPrice = 0,
+                Car = new Car()
+                {
+                    CarId = 2,
+                    Make = "BMW",
+                    Model = "M5",
+                    PricePerDay = 56.3m,
+                    IsAvailable = true,
+                    Year = 2023,
+                    FuelType = "Petrol",
+                    Seats = 5,
+                    ImageUrl = "BMW_M5.png"
+                }
+            });
+
+            bookings.Add(new Booking()
+            {
+                BookingId = 6,
+                CarId = 3,
+                UserId = 6,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                TotalPrice = 0,
+                Car = new Car()
+                {
+                    CarId = 3,
+                    Make = "Renault",
+                    Model = "Senic",
+                    PricePerDay = 96.3m,
+                    IsAvailable = true,
+                    Year = 2024,
+                    FuelType = "Electric",
+                    Seats = 5,
+                    ImageUrl = "Renault_Senic.webp"
+                }
+            });
+
+            bookings.Add(new Booking()
+            {
+                BookingId = 7,
+                CarId = 5,
+                UserId = 7,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(1),
+                TotalPrice = 0,
+                Car = new Car()
+                {
+                    CarId = 5,
+                    Make = "Toyota",
+                    Model = "RAV 4",
+                    PricePerDay = 83.6m,
+                    IsAvailable = true,
+                    Year = 2024,
+                    FuelType = "Hybrid",
+                    Seats = 5,
+                    ImageUrl = "Toyota_RAV4.png"
                 }
             });
 

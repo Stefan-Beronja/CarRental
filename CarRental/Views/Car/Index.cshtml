@@ -5,50 +5,57 @@
     }
 
 <div class="container-fluid div-index">
-<h2 class="my-2">Find A Car</h2>
+    <h2 class="my-2">Find A Car</h2>
 
- <div class="my-3 mb-5">
-    <form methd="get" asp-action="Index" class="row g-3">
-        <div class="col-auto">
-            <label for="make" class="visually-hidden">Make</label>
-            <input type="text" name="make" id="make" class="form-control" placeholder="Make" value="@Context.Request.Query["Make"]" />
-        </div>
+     <div class="my-3 mb-5">
+        <form methd="get" asp-action="Index" class="row g-3">
+            <div class="col-auto">
+                <label for="make" class="visually-hidden">Make</label>
+                <input type="text" name="make" id="make" class="form-control" placeholder="Make" value="@Context.Request.Query["make"]" />
+            </div>
 
-        <div class="col-auto">
-            <label for="model" class="visually-hidden">Model</label>
-            <input type="text" name="model" id="model" class="form-control" placeholder="Model" value="@Context.Request.Query["Model"]" />
-        </div>
+            <div class="col-auto">
+                <label for="model" class="visually-hidden">Model</label>
+                <input type="text" name="model" id="model" class="form-control" placeholder="Model" value="@Context.Request.Query["model"]" />
+            </div>
 
-        <div class="col-auto">
-            <label for="min-price" class="visually-hidden">Minimal Price</label>
-            <input type="number" name="min-price" id="min-price" step="0.01" class="form-control" placeholder="Minimal Price" value="@Context.Request.Query["minPrice"]" />
-        </div>
+            <div class="col-auto">
+                <label for="miPrice" class="visually-hidden">Minimal Price</label>
+                <input type="number" name="minPrice" id="minPrice" step="0.01" class="form-control" placeholder="Minimal Price" value="@Context.Request.Query["minPrice"]" />
+            </div>
 
-        <div class="col-auto">
-            <label for="max-price" class="visually-hidden">Maximal Price</label>
-            <input type="number" name="max-price" id="max-price" step="0.01" class="form-control" placeholder="Maximal Price" value="@Context.Request.Query["minPrice"]" />
-        </div>
+            <div class="col-auto">
+                <label for="maxPrice" class="visually-hidden">Maximal Price</label>
+                <input type="number" name="maxPrice" id="maxPrice" step="0.01" class="form-control" placeholder="Maximal Price" value="@Context.Request.Query["maxPrice"]" />
+            </div>
 
-        <div class="col-auto">
-            <button type="submit" class="btn btn-secondary">Search</button>
-            <button type="reset" class="btn btn-Light border-link">Reset</button>
-        </div>
-    </form>
- </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-secondary">Search</button>
+                <button type="reset" class="btn btn-Light border-link">Reset</button>
+            </div>
+            
+            <h1 class="my-2">Available Cars</h1>
+
+
+            <div class="row">
+                @foreach (var car in Model)
+                {
+                    <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-12">
+                        @await Html.PartialAsync("_CarCard", car)
+                    </div>
+                }
+            </div>
+
+
+            @* Paginacija *@
+
+
+        </form>
+     </div>
 </div>
 
 
-<h1 class="my-2">Available Cars</h1>
 
-
-<div class="row">
-    @foreach (var car in Model)
-    {
-        <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-12">
-            @await Html.PartialAsync("_CarCard", car)
-        </div>
-    }
-</div>
 
 
 
