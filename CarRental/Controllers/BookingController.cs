@@ -1,4 +1,5 @@
 ﻿using CarRental.Models;
+using CarRental.Services;
 using CarRental.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,40 +9,81 @@ namespace CarRental.Controllers
 {
     public class BookingController : Controller
     {
-        public IActionResult Create(int carId, int userId)
+        private readonly IUnitOfWork _unitOfWork;
+        public BookingController(IUnitOfWork unitOfWork)
         {
-            IEnumerable<Car> cars = Storage.InitCars();
-            Car car = cars.Single(x => x.CarId == carId);
-            
-            IEnumerable<Booking> bookings = Storage.InitBooking();
-            Booking booking = bookings.SingleOrDefault(x => x.CarId == carId);
+            _unitOfWork = unitOfWork;
+        }
 
-            booking.TotalPrice = CalculateTotalPrice(booking.StartDate, booking.EndDate, car.PricePerDay);
-            booking.Car = car;
+        // UnitOfWorks nam menja CarService i BookingService
 
-            if (booking == null || !car.IsAvailable)
+        //private readonly ICarService _carService;
+        //public BookingController(ICarService carService)
+        //{
+        //    _carService = carService;
+        //}
+
+        //private readonly IBookingService _bookingService;
+        //public BookingController(IBookingService bookingService)
+        //{
+        //    _bookingService = bookingService;
+        //}
+
+        [HttpGet]
+        public IActionResult Create(int carId, int userId, DateTime startDate, DateTime endDate)
+        {
+            //IEnumerable<Car> cars = Storage.InitCars();
+            //Car car = cars.Single(x => x.CarId == carId);
+
+            //IEnumerable<Booking> bookings = Storage.InitBooking();
+            //Booking booking = bookings.SingleOrDefault(x => x.CarId == carId);
+
+            var cars = _unitOfWork.CarService.GetCarById(carId);
+
+            Booking bookings = new Booking();
+
+            bookings.StartDate = DateTime.Now.AddDays(1);
+            bookings.EndDate = DateTime.Now.AddDays(3);
+            bookings.TotalPrice = _unitOfWork.BookingService.CalculateTotalPrice(bookings.StartDate, bookings.EndDate, cars.PricePerDay);
+            bookings.Car = cars;
+
+            if (bookings == null || !cars.IsAvailable)
             {
                 return NotFound("The car is not avilable for booking.");
             }
-            
 
-            return View(booking);
+            return View(bookings);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Booking booking)
+        public IActionResult Create( int carId, DateTime startDate, DateTime endDate, string action)
         {
-            IEnumerable<Car> cars = Storage.InitCars();
-            Car car = cars.SingleOrDefault(x => x.CarId == booking.CarId);
+            //IEnumerable<Car> cars = Storage.InitCars();
+            //Car car = cars.SingleOrDefault(x => x.CarId == booking.CarId);
 
-            if (car == null || !car.IsAvailable)
+            var cars = _unitOfWork.CarService.GetCarById(carId);
+            var bookings = _unitOfWork.BookingService.GetBookingByCarId(carId);
+
+            bookings.StartDate = startDate;
+            bookings.EndDate = endDate;
+            bookings.TotalPrice = _unitOfWork.BookingService.CalculateTotalPrice(startDate, endDate, cars.PricePerDay);
+            bookings.Car = cars;
+
+            if (action == "refresh") 
+            {
+                bookings.StartDate = startDate;
+                bookings.EndDate = endDate;
+                bookings.TotalPrice = _unitOfWork.BookingService.CalculateTotalPrice(startDate, endDate, cars.PricePerDay);
+                bookings.Car = cars;
+
+                return View(bookings);
+            }
+
+            if (cars == null || !cars.IsAvailable)
             {
                 return NotFound("The car is not avilable for booking.");
             }
-
-            booking.TotalPrice = CalculateTotalPrice(booking.StartDate, booking.EndDate, car.PricePerDay);
-            booking.Car = car;
 
             //ModelState:
             //To je objekat koji se koristi za praćenje stanja modela tokom HTTP zahteva.
@@ -49,51 +91,51 @@ namespace CarRental.Controllers
 
             //IsValid
 
-
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Confirmation", new { bookingId = booking.BookingId, carId = booking.CarId });
+                return RedirectToAction("Confirmation", new { bookingId = bookings.BookingId, carId = bookings.CarId, totalPrice = bookings.TotalPrice, startDate = bookings.StartDate, endDate = bookings.EndDate });
             }
 
-            return View(booking);
+            return View(bookings);
 
         }
 
-        public IActionResult Confirmation(int bookingId, int carId)
+        public IActionResult Confirmation(int bookingId, int carId, DateTime startDate, DateTime endDate, decimal totalPrice)
         {
-            IEnumerable<Booking> bookings = Storage.InitBooking();
-            Booking booking = bookings.SingleOrDefault(x => x.BookingId == bookingId);
+            //IEnumerable<Booking> bookings = Storage.InitBooking();
+            //Booking booking = bookings.SingleOrDefault(x => x.BookingId == bookingId);
 
-            IEnumerable<Car> cars = Storage.InitCars();
-            Car car = cars.Single(x => x.CarId == carId);
+            //IEnumerable<Car> cars = Storage.InitCars();
+            //Car car = cars.Single(x => x.CarId == carId);
 
-            booking.TotalPrice = CalculateTotalPrice(booking.StartDate, booking.EndDate, car.PricePerDay);
-            booking.Car = car;
+            Booking bookings = new Booking();
 
-            if (booking == null)
+            var cars = _unitOfWork.CarService.GetCarById(carId);
+            bookings = _unitOfWork.BookingService.GetBookingByCarId(carId);
+
+            bookings.StartDate = startDate;
+            bookings.EndDate = endDate;
+            bookings.TotalPrice = _unitOfWork.BookingService.CalculateTotalPrice(startDate, endDate, cars.PricePerDay);
+            bookings.Car = cars;
+
+            if (bookings == null)
             {
                 return NotFound("Booking not found");
             }
 
-            return View(booking);
+            return View(bookings);
         }
 
         public IActionResult History(int userId)
         {
-            IEnumerable<Booking> bookings = Storage.InitBooking().Where(x => x.UserId == userId);
-            
+            //IEnumerable<Booking> bookings = Storage.InitBooking().Where(x => x.UserId == userId);
+
             //Booking booking = bookings.Where(x => x.UserId == userId);
             // Zasto ne moze kao u gore navedenim primerima
-            
+
+            var bookings = _unitOfWork.BookingService.GetBookingById(userId);
+
             return View(bookings);
-        }
-
-        public decimal CalculateTotalPrice(DateTime startDate, DateTime endDate, decimal pricePerDay)
-        {
-            var rentalDays = (endDate - startDate).Days;
-            var totalPrice = pricePerDay * rentalDays;
-
-            return totalPrice;
         }
     }
 }

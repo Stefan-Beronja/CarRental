@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
 namespace CarRental.Models
 {
+    [Table("Car")]
     public class Car
     {
         [Required]
@@ -17,8 +19,10 @@ namespace CarRental.Models
         public bool IsAvailable { get; set; }
         [Required]
         public int Year { get; set; }
-        public int Seats { get; set; }
-        public string FuelType { get; set; }
-        public string ImageUrl { get; set; }
+
+        [Range(2, 7)]
+        public int? Seats { get; set; }
+        public string? FuelType { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

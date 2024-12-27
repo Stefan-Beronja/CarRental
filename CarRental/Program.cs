@@ -1,5 +1,6 @@
 using CarRental;
 using CarRental.Models;
+using CarRental.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<CarRentalContext>(
-    op => op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    op => op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    .EnableSensitiveDataLogging().LogTo(Console.WriteLine, LogLevel.Information)
+    );
+
+builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWorks>();
 
 var app = builder.Build();
 

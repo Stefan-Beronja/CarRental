@@ -1,0 +1,124 @@
+﻿@model CarRental.Models.Car
+
+@{
+    ViewData["Title"] = "Create A Car";
+}
+
+<h1 class="text-center mb-2">Create a new car</h1>
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <form asp-controller="Car" asp-action="Create" method="post" enctype="multipart/form-data" class="row">
+
+            <div class="form-group col-6">
+                <label asp-for="Make" class="form-label">Make</label>
+                <input asp-for="Make" type="text" requried class="form-control" />
+                <span asp-validation-for="Make" class="validation-message"></span>
+            </div>
+
+            <div class="form-group col-6">
+                <label asp-for="Model" class="form-label">Model</label>
+                <input asp-for="Model" type="text" requried class="form-control" />
+                <span asp-validation-for="Model" class="validation-message"></span>
+            </div>
+
+            <div class="form-group mt-3 col-6">
+                <label asp-for="PricePerDay" class="form-label">Price Per Day</label>
+                <input asp-for="PricePerDay" type="number" requred class="form-control" />
+                <span asp-validation-for="PricePerDay" class="validation-message"></span>
+            </div>
+
+            <div class="form-check mt-3 col-6 padding-custom">
+                <legend class="col-form-label py-0 ava-margin-custom">Available</legend>
+                <div class="border bg-white border-1 rounded-2 border-custom">
+                    <label asp-for="IsAvailable" class="form-check-label"> Is Available</label>
+                    <input asp-for="IsAvailable" type="checkbox" requred class="form-check-input mx-2" />
+                    <span asp-validation-for="IsAvailable" class="validation-message"></span>
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <label asp-for="Year" class="from-label">Year of production</label>
+                <select asp-for="Year" reqired class="form-control">
+                    <option value="">-- Select the year of production --</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                    <option value="2007">2007</option>
+                    <option value="2006">2006</option>
+                    <option value="2005">2005</option>
+                    <option value="2004">2004</option>
+                    <option value="2003">2003</option>
+                    <option value="2002">2002</option>
+                    <option value="2001">2001</option>
+                    <option value="2000">2000</option>
+                    <option value=""></option>
+                </select>
+                <span asp-validation-for="Year" class="validation-message"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <label asp-for="Seats" class="form-label"></label>
+                <select asp-for="Seats" class="form-control">
+                    <option value="">-- Select the number of seats --</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+                <span asp-validation-for="Seats" class="validation-message"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <legend class="col-form-label">Select the fuel type</legend>
+                <div class="border bg-white border-1 rounded-2 border-custom">
+                    <div class="form-check form-check-inline">
+                        <label asp-for="FuelType" class="form-check-label">Petrol</label>
+                        <input asp-for="FuelType" type="radio" value="Petrol" name="FuelType" class="form-check-input" />
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <label asp-for="FuelType" class="form-check-label">Disel</label>
+                        <input asp-for="FuelType" type="radio" value="Disel" name="FuelType" class="form-check-input" />
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <label asp-for="FuelType" class="form-check-label">Hybrid</label>
+                        <input asp-for="FuelType" type="radio" value="Hybrid" name="FuelType" class="form-check-input" />
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <label asp-for="FuelType" class="form-check-label">Electric</label>
+                        <input asp-for="FuelType" type="radio" value="Electric" name="FuelType" class="form-check-input" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <label asp-for="ImageUrl" class="form-label">Image</label>
+                <input asp-for="ImageUrl" type="file" name="file" class="form-control"/>
+                <span asp-validation-for="ImageUrl" class="validation-message"></span>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4 mb-3">
+                <button type="submit" class="btn btn-secondary">Add A Car</button>
+                <button type="reset" class="btn btn-outline-secondary">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,17 +1,17 @@
 ﻿@model CarRental.Models.Car
 
-        <div class="card my-3">
-            <div class="images-container">
+<div class="card my-3">
+    <div class="images-container">
         <img src="~/Images/Cars/@(string.IsNullOrEmpty(Model.ImageUrl) ? "CS.webp" : Model.ImageUrl)" alt="@Model.Make @Model.Model" class="card-img-top img-card-custom">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">@Model.Make @Model.Model</h5>
-                <p class="card-text text-custom">
-                    @Model.PricePerDay € /day
-                </p>
-                <a href="@Url.Action("Details", "Car", new { id = Model.CarId})" class="btn btn-light link-custom border-link">View Details</a>
-            </div>
-        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Make @Model.Model</h5>
+            <p class="card-text text-custom">
+                @Model.PricePerDay € /day
+            </p>
+        <a href="@Url.Action("Details", "Car", new { id = Model.CarId})" class="btn btn-light link-custom border-link">View Details</a>
+    </div>
+</div> 
 
 
 

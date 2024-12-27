@@ -1,9 +1,11 @@
 ﻿using CarRental.Utils;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace CarRental.Models
 {
+    [Table("Booking")]
     public class Booking
     {
         [Required]
@@ -11,8 +13,10 @@ namespace CarRental.Models
 
         [Required]
         public int CarId { get; set; }
+
         [Required]
         public int UserId { get; set; }
+
         [Required]
         public Car? Car { get; set; }
 

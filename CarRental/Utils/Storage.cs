@@ -278,7 +278,5 @@ namespace CarRental.Utils
 
             return bookings;
         }
-
-        
     }
 }

@@ -1,44 +1,39 @@
-﻿@model IEnumerable<CarRental.Models.Car>
+﻿@using CarRental.ViewModels;
 
-    @{
-        ViewData["Title"] = "Car Listing";
-    }
+@model PaginatedCarsViewModel
+
+@{
+    ViewData["Title"] = "Car Listing";
+}
 
 <div class="container-fluid div-index">
     <h2 class="my-2">Find A Car</h2>
 
-     <div class="my-3 mb-5">
-        <form methd="get" asp-action="Index" class="row g-3">
-            <div class="col-auto">
+    <div class="my-3 mb-5">
+        <form methd="get" asp-action="Index" class="row">
+            <div class="hstack gap-3">
                 <label for="make" class="visually-hidden">Make</label>
                 <input type="text" name="make" id="make" class="form-control" placeholder="Make" value="@Context.Request.Query["make"]" />
-            </div>
-
-            <div class="col-auto">
+        
                 <label for="model" class="visually-hidden">Model</label>
                 <input type="text" name="model" id="model" class="form-control" placeholder="Model" value="@Context.Request.Query["model"]" />
-            </div>
-
-            <div class="col-auto">
+            
                 <label for="miPrice" class="visually-hidden">Minimal Price</label>
                 <input type="number" name="minPrice" id="minPrice" step="0.01" class="form-control" placeholder="Minimal Price" value="@Context.Request.Query["minPrice"]" />
-            </div>
-
-            <div class="col-auto">
+ 
                 <label for="maxPrice" class="visually-hidden">Maximal Price</label>
                 <input type="number" name="maxPrice" id="maxPrice" step="0.01" class="form-control" placeholder="Maximal Price" value="@Context.Request.Query["maxPrice"]" />
+
+                <button type="submit" class="btn btn-secondary">Search</button>
+                <div class="vr"></div>
+                <button type="reset" class="btn btn-outline-secondary">Reset</button>
             </div>
 
-            <div class="col-auto">
-                <button type="submit" class="btn btn-secondary">Search</button>
-                <button type="reset" class="btn btn-Light border-link">Reset</button>
-            </div>
-            
             <h1 class="my-2">Available Cars</h1>
 
 
             <div class="row">
-                @foreach (var car in Model)
+                @foreach (var car in Model.Cars)
                 {
                     <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-12">
                         @await Html.PartialAsync("_CarCard", car)
@@ -46,47 +41,25 @@
                 }
             </div>
 
+            <div class="d-inline-flex justify-content-evenly">
+                <div>
+                    <input type="hidden" name="pageSize" id="pageSize" value="@Context.Request.Query["pageSize"]" />
 
-            @* Paginacija *@
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Car", new {page = (Model.CurrentPage - 1).ToString()})">Previous page</a>
+                    }
+                </div>
 
-
+                <div>
+                    <input type="hidden" name="pageCount" id="pageCount" value="@Context.Request.Query["pageCount"]" />
+                
+                    @if (Model.HasNextPage)
+                    {
+                        <a class="btn btn-outline-secondary" href="@Url.Action("Index", "Car" , new {page = (Model.CurrentPage + 1).ToString()})">Next page</a>
+                    }
+                </div>
+            </div>
         </form>
      </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* <div class="row">
-    @foreach (Car car in Model)
-    {
-            <div class="col-4">
-                <div class="card my-3">
-                <img src="~/Images/Cars/" alt="" class="card-img-top img-card-custom">
-                    <div class="card-body">
-                        <h5 class="card-title">@car.Make @car.Model</h5>
-                        <p class="card-text text-custom">
-                            Price per Day: @car.PricePerDay €
-                        </p>
-                        <p class="card-text text-custom">
-                            @(car.IsAvailable ? "Available" : "Not Available")
-                        </p>
-                    <a href="@Url.Action("Details", "Car", new { id = car.CarId})" class="btn btn-light link-custom border-link">View Details</a>
-                    </div>
-                </div>
-            </div>
-    }
-</div> *@
