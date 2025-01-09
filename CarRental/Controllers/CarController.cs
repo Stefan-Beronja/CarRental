@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.ConstrainedExecution;
 using System.IO;
+using Azure;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.IO.Pipes;
+using System;
 
 namespace CarRental.Controllers
 {
@@ -19,18 +23,8 @@ namespace CarRental.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        //private readonly ICarService _carService;
-
-        //public CarController(ICarService carService)
-        //{
-        //    _carService = carService;
-        //}
-
-
         public async Task<IActionResult> Index(string make, string model, decimal? minPrice, decimal? maxPrice, int page = 1)
         {
-            //var cars = _carService.GetFilteredCars(make, model, minPrice, maxPrice);
-            
             var cars = _unitOfWork.CarService.GetFilteredCars(make, model, minPrice, maxPrice);
 
             var pageSize = 8;
@@ -52,8 +46,6 @@ namespace CarRental.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            //var cars = _carService.GetCarById(id);
-
             var cars = _unitOfWork.CarService.GetCarById(id);
 
             if (cars == null) return NotFound();
@@ -63,38 +55,22 @@ namespace CarRental.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(string make, string model, decimal? minPrice, decimal? maxPrice, int page = 1)
         {
-            var cars = _unitOfWork.CarService.GetFilteredCars(make, model, minPrice, maxPrice);
-
-            var pageSize = 8;
-
-            PaginatedCarsViewModel pcvm = new PaginatedCarsViewModel();
-
-            pcvm.PageSize = pageSize;
-            pcvm.TotalPages = cars.Count() % pageSize;
-            pcvm.CurrentPage = page;
-            pcvm.HasNextPage = pcvm.CurrentPage < pcvm.TotalPages;
-            pcvm.HasPreviousPage = pcvm.CurrentPage > 1;
-
-            cars = cars.Skip(pageSize * (page - 1)).Take(pageSize);
-
-            pcvm.Cars = cars;
-
-            return View(pcvm);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Car car, IFormFile file)
+        public async Task<IActionResult> Create(Car car, IFormFile file, int page = 1)
         {
             if (ModelState.IsValid)
             {
                 if (file != null)
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\Cars");
-                    path = $"{path}\\{car.Make}_{car.Model}_{car.Year}.jpg";
+                    path = $"{path}\\{car.Make}_{car.Model}_{car.Year}.png";
 
                     FileStream filestream = new FileStream(path, FileMode.Create);
                     file.CopyTo(filestream);
-                    car.ImageUrl = path;
+                    car.ImageUrl = $"{car.Make}_{car.Model}_{car.Year}.png";
                 }
 
                 _unitOfWork.CarService.AddCar(car);
@@ -102,7 +78,18 @@ namespace CarRental.Controllers
 
                 IEnumerable<Car> cars = _unitOfWork.CarService.GetAllCars();
 
-                return View("Index", cars);
+                var pageSize = 8;
+
+                PaginatedCarsViewModel pcvm = new PaginatedCarsViewModel();
+
+                pcvm.PageSize = pageSize;
+                pcvm.TotalPages = (int)Math.Ceiling((double)cars.Count() / pageSize);
+                pcvm.CurrentPage = pcvm.TotalPages;
+                pcvm.HasNextPage = pcvm.CurrentPage < pcvm.TotalPages;
+                pcvm.HasPreviousPage = pcvm.CurrentPage > 1;
+                pcvm.Cars = cars.Skip(pageSize * (pcvm.CurrentPage - 1)).Take(pageSize);
+    
+                return View("Index", pcvm);
             }
 
             return View(car);

@@ -55,6 +55,7 @@ namespace CarRental.Controllers
             return View(bookings);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create( int carId, DateTime startDate, DateTime endDate, string action)
@@ -72,15 +73,10 @@ namespace CarRental.Controllers
 
             if (action == "refresh") 
             {
-                bookings.StartDate = startDate;
-                bookings.EndDate = endDate;
-                bookings.TotalPrice = _unitOfWork.BookingService.CalculateTotalPrice(startDate, endDate, cars.PricePerDay);
-                bookings.Car = cars;
-
                 return View(bookings);
             }
 
-            if (cars == null || !cars.IsAvailable)
+            if (cars == null || !cars.IsAvailable) // cars.IsAvailable == false 
             {
                 return NotFound("The car is not avilable for booking.");
             }
@@ -131,7 +127,6 @@ namespace CarRental.Controllers
             //IEnumerable<Booking> bookings = Storage.InitBooking().Where(x => x.UserId == userId);
 
             //Booking booking = bookings.Where(x => x.UserId == userId);
-            // Zasto ne moze kao u gore navedenim primerima
 
             var bookings = _unitOfWork.BookingService.GetBookingById(userId);
 
