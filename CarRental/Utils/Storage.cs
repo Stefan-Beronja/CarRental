@@ -125,7 +125,7 @@ namespace CarRental.Utils
             {
                 BookingId = 1,
                 CarId = 1,
-                UserId = 1,
+                UserId = "1",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(3),
                 TotalPrice = 0,
@@ -148,7 +148,7 @@ namespace CarRental.Utils
             {
                 BookingId = 2,
                 CarId = 4,
-                UserId = 2,
+                UserId = "2",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(3),
                 TotalPrice = 0,
@@ -170,7 +170,7 @@ namespace CarRental.Utils
             {
                 BookingId = 3,
                 CarId = 6,
-                UserId = 3,
+                UserId = "3",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(1),
                 TotalPrice = 0,
@@ -192,7 +192,7 @@ namespace CarRental.Utils
             {
                 BookingId = 4,
                 CarId = 8,
-                UserId = 4,
+                UserId = "4",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(1),
                 TotalPrice = 0,
@@ -214,7 +214,7 @@ namespace CarRental.Utils
             {
                 BookingId = 5,
                 CarId = 2,
-                UserId = 5,
+                UserId = "5",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(1),
                 TotalPrice = 0,
@@ -236,7 +236,7 @@ namespace CarRental.Utils
             {
                 BookingId = 6,
                 CarId = 3,
-                UserId = 6,
+                UserId = "6",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(1),
                 TotalPrice = 0,
@@ -258,7 +258,7 @@ namespace CarRental.Utils
             {
                 BookingId = 7,
                 CarId = 5,
-                UserId = 7,
+                UserId = "7",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(1),
                 TotalPrice = 0,

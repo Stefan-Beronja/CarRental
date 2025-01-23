@@ -21,10 +21,16 @@ namespace CarRental.Services
             return _context.Bookings.Find(id);
         }
 
+        public Booking GetBookingByCarId(int carId)
+        {
+            return _context.Bookings.FirstOrDefault(b => b.CarId == carId);
+        }
+
         public void AddBooking(Booking booking)
         {
             _context.Bookings.Add(booking);
         }
+
         public void UpdateBooking(Booking booking)
         {
             _context.Bookings.Update(booking);
@@ -45,11 +51,6 @@ namespace CarRental.Services
             var totalPrice = pricePerDay * rentalDays;
             
             return totalPrice;
-        }
-
-        public Booking GetBookingByCarId(int carId)
-        {
-            return _context.Bookings.FirstOrDefault(b => b.CarId == carId);
         }
     }
 }

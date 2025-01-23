@@ -28,13 +28,14 @@
                 <form asp-action="Create" asp-controller="Booking" method="get">
                     <input type="hidden" name="CarId" value="@Model.CarId" />
                     <input type="hidden" name="UserId" value="1" />
-                    <button type="submit" class="btn btn-secondary link-custom border-link">Book This Car</button>
+                    <button type="submit" class="btn btn-secondary link-custom border-link">Book This Car</button> 
                 </form>
             }
             else
             {
                 <p>This car is currently unavailable for booking</p>    
             }
+            <a class="btn btn-success link-custom border-link" href="@Url.Action("Update", "Car", new {carId = Model.CarId})">Update</a>
         </div>
     </div>
 
@@ -42,3 +43,15 @@
         <img src="~/Images/Cars/@(string.IsNullOrEmpty(Model.ImageUrl) ? "Coming_soon.png" : Model.ImageUrl)" alt="@Model.Make @Model.Model" class="card-img-top img-card-custom">
     </div>
 </div>
+
+
+
+@* 
+
+@User.Identity.Name
+
+@User.FindFirstValue(ClaimTypes.NameIdentifier) za String
+
+@UserManager.GetUserId(User) 
+
+*@

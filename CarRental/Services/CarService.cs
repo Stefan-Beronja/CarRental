@@ -29,7 +29,7 @@ namespace CarRental.Services
 
         public void UpdateCar(Car car)
         {
-            _context.Cars.Update(car);
+                _context.Cars.Update(car);
         }
 
         public void DeleteCar(int id)

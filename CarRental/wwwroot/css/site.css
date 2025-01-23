@@ -80,3 +80,7 @@ body {
 .ava-margin-custom{
     margin: 0px 0px 8px
 }
+
+.active-border {
+    border-color: rgba(108, 117, 125, 1);
+}

@@ -14,8 +14,8 @@ namespace CarRental.Models
         [Required]
         public int CarId { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
+        
+        public string? UserId { get; set; }
 
         [Required]
         public Car? Car { get; set; }

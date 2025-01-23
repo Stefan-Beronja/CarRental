@@ -11,7 +11,6 @@ namespace CarRental.Services
         void UpdateBooking(Booking booking);
         void DeleteBooking(int id);
         public decimal CalculateTotalPrice(DateTime startDate, DateTime endDate, decimal pricePerDay);
-
         public Booking GetBookingByCarId(int carId);
     }
 }

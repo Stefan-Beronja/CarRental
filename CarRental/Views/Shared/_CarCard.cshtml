@@ -9,9 +9,10 @@
             <p class="card-text text-custom">
                 @Model.PricePerDay € /day
             </p>
-        <a href="@Url.Action("Details", "Car", new { id = Model.CarId})" class="btn btn-light link-custom border-link">View Details</a>
+        <a href="@Url.Action("Details", "Car", new { carId = Model.CarId})" class="btn btn-light link-custom border-link">View Details</a>
+        <a href="@Url.Action("Delete", "Car", new { carId = Model.CarId})" class="btn btn-danger link-custom border-link">Delete</a>
     </div>
-</div> 
+</div>
 
 
 

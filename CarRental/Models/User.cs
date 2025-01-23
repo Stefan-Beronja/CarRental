@@ -1,11 +1,9 @@
-﻿namespace CarRental.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CarRental.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int UserID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
+     
     }
 }

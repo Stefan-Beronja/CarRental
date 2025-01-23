@@ -1,9 +1,10 @@
 ﻿using CarRental.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental
 {
-    public class CarRentalContext : DbContext
+    public class CarRentalContext : IdentityDbContext // DbContext
     {
         public static readonly ILoggerFactory LoggerFactory = Microsoft.Extensions.Logging.LoggerFactory.Create(builder =>
         {

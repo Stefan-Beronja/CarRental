@@ -11,6 +11,7 @@ using Azure;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO.Pipes;
 using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CarRental.Controllers
 {
@@ -32,6 +33,7 @@ namespace CarRental.Controllers
             PaginatedCarsViewModel pcvm = new PaginatedCarsViewModel();
 
             pcvm.PageSize = pageSize;
+            pcvm.PageIndex = 1;
             pcvm.TotalPages = (int)Math.Ceiling((double)cars.Count() / pageSize);
             pcvm.CurrentPage = page < 1 ? 1 : (page > pcvm.TotalPages ? pcvm.TotalPages : page);
             pcvm.HasNextPage = pcvm.CurrentPage < pcvm.TotalPages;
@@ -44,9 +46,9 @@ namespace CarRental.Controllers
             return View(pcvm);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int carId)
         {
-            var cars = _unitOfWork.CarService.GetCarById(id);
+            var cars = _unitOfWork.CarService.GetCarById(carId);
 
             if (cars == null) return NotFound();
             return View(cars);
@@ -55,6 +57,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(string make, string model, decimal? minPrice, decimal? maxPrice, int page = 1)
         {
+
             return View();
         }
 
@@ -67,7 +70,7 @@ namespace CarRental.Controllers
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\Cars");
                     path = $"{path}\\{car.Make}_{car.Model}_{car.Year}.png";
-
+                    
                     FileStream filestream = new FileStream(path, FileMode.Create);
                     file.CopyTo(filestream);
                     car.ImageUrl = $"{car.Make}_{car.Model}_{car.Year}.png";
@@ -83,16 +86,42 @@ namespace CarRental.Controllers
                 PaginatedCarsViewModel pcvm = new PaginatedCarsViewModel();
 
                 pcvm.PageSize = pageSize;
+                pcvm.PageIndex = page;
                 pcvm.TotalPages = (int)Math.Ceiling((double)cars.Count() / pageSize);
                 pcvm.CurrentPage = pcvm.TotalPages;
                 pcvm.HasNextPage = pcvm.CurrentPage < pcvm.TotalPages;
                 pcvm.HasPreviousPage = pcvm.CurrentPage > 1;
                 pcvm.Cars = cars.Skip(pageSize * (pcvm.CurrentPage - 1)).Take(pageSize);
     
-                return View("Index", pcvm);
+                return View("Index", pcvm); 
             }
 
             return View(car);
+        }
+
+        public async Task<IActionResult> Delete(int carId)
+        {
+            _unitOfWork.CarService.DeleteCar(carId);
+            _unitOfWork.SaveChanges();
+
+            return RedirectToAction("Index", new {make = "", model = ""});
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int carId)
+        {
+            var car = _unitOfWork.CarService.GetCarById(carId);
+
+            return View(car); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Car car)
+        {
+            _unitOfWork.CarService.UpdateCar(car);
+            _unitOfWork.SaveChanges();
+
+            return RedirectToAction("Details", new { carId = car.CarId}); 
         }
     }
 }

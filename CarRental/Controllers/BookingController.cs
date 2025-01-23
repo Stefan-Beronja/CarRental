@@ -43,7 +43,7 @@ namespace CarRental.Controllers
             Booking bookings = new Booking();
 
             bookings.StartDate = DateTime.Now.AddDays(1);
-            bookings.EndDate = DateTime.Now.AddDays(3);
+            bookings.EndDate = DateTime.Now.AddDays(2);
             bookings.TotalPrice = _unitOfWork.BookingService.CalculateTotalPrice(bookings.StartDate, bookings.EndDate, cars.PricePerDay);
             bookings.Car = cars;
 
